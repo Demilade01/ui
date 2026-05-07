@@ -13,13 +13,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  primary: "bg-[#5645d4] text-white hover:bg-[#4534b3]",
-  secondary:
-    "bg-transparent text-[#ebebeb] border border-[#3d3d3d] hover:bg-[#1c1c1c]",
-  ghost:
-    "bg-transparent text-[#999999] hover:bg-[#1c1c1c] hover:text-[#ebebeb]",
+  primary: "bg-brand text-white hover:bg-brand-hover",
+  secondary: "bg-transparent text-ink border border-line-2 hover:bg-surface-2",
+  ghost: "bg-transparent text-ink-2 hover:bg-surface-2 hover:text-ink",
   destructive:
-    "bg-[rgba(239,68,68,0.1)] text-[#ef4444] border border-[rgba(239,68,68,0.2)] hover:bg-[rgba(239,68,68,0.15)]",
+    "bg-[rgba(239,68,68,0.1)] text-red border border-[rgba(239,68,68,0.2)] hover:bg-[rgba(239,68,68,0.15)]",
 };
 
 const sizes: Record<Size, string> = {
@@ -48,8 +46,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         className={cn(
-          "inline-flex items-center justify-center font-medium rounded-md transition-colors cursor-pointer select-none",
-          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5645d4]",
+          "inline-flex items-center justify-center font-medium rounded-lg transition-colors cursor-pointer select-none",
+          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
           "disabled:opacity-40 disabled:cursor-not-allowed",
           variants[variant],
           sizes[size],

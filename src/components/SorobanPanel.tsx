@@ -55,28 +55,24 @@ export function SorobanPanel() {
   }
 
   return (
-    <div className="rounded-xl border border-[#2a2a2a] bg-[#141414] overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-[#2a2a2a]">
+    <div className="rounded-xl border border-line bg-surface overflow-hidden">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-line">
         <div>
-          <h3 className="text-[14px] font-semibold text-[#ebebeb]">
+          <h3 className="text-[14px] font-semibold text-ink">
             Contract Invoke
           </h3>
-          <p className="text-[12px] text-[#555] mt-0.5">
+          <p className="text-[12px] text-ink-3 mt-0.5">
             Call a Soroban smart contract method
           </p>
         </div>
         <Badge variant="teal">Soroban</Badge>
       </div>
 
-      {/* Body */}
       <div className="px-6 py-6">
         {!isConnected ? (
-          <div className="flex flex-col items-center gap-3 py-8">
-            <p className="text-[13px] text-[#555]">
-              Connect your wallet to invoke contracts
-            </p>
-          </div>
+          <p className="text-[13px] text-ink-3 text-center py-8">
+            Connect your wallet to invoke contracts
+          </p>
         ) : (
           <form onSubmit={invoke} className="flex flex-col gap-5">
             <Input
@@ -94,7 +90,7 @@ export function SorobanPanel() {
               disabled={state === "loading"}
             />
             <div className="flex flex-col gap-2">
-              <label className="text-[12px] font-medium text-[#999]">
+              <label className="text-[12px] font-medium text-ink-2">
                 Arguments (JSON array)
               </label>
               <textarea
@@ -103,7 +99,7 @@ export function SorobanPanel() {
                 onChange={(e) => setArgs(e.target.value)}
                 disabled={state === "loading"}
                 rows={3}
-                className="w-full rounded-lg border border-[#2a2a2a] bg-[#1c1c1c] px-4 py-3 text-[13px] font-mono text-[#ebebeb] placeholder:text-[#444] outline-none focus:border-[#3d3d3d] focus:ring-1 focus:ring-[rgba(86,69,212,0.3)] transition-colors resize-none disabled:opacity-40"
+                className="w-full rounded-lg border border-line bg-surface-2 px-4 py-3 text-[13px] font-mono text-ink placeholder:text-ink-4 outline-none focus:border-line-2 focus:ring-1 focus:ring-brand-dim transition-colors resize-none disabled:opacity-40"
               />
             </div>
 
@@ -112,22 +108,21 @@ export function SorobanPanel() {
                 <Badge variant="success" dot>
                   Result
                 </Badge>
-                <pre className="text-[12px] font-mono text-[#aaa] whitespace-pre-wrap break-all">
+                <pre className="text-[12px] font-mono text-ink-2 whitespace-pre-wrap break-all">
                   {JSON.stringify(result, null, 2)}
                 </pre>
               </div>
             )}
             {state === "error" && error && (
               <div className="rounded-lg bg-[rgba(239,68,68,0.08)] border border-[rgba(239,68,68,0.15)] px-5 py-4">
-                <p className="text-[13px] text-[#ef4444]">{error}</p>
+                <p className="text-[13px] text-red">{error}</p>
               </div>
             )}
           </form>
         )}
       </div>
 
-      {/* Footer */}
-      <div className="px-6 py-4 border-t border-[#2a2a2a] flex items-center gap-3">
+      <div className="px-6 py-4 border-t border-line flex items-center gap-3">
         {(state === "success" || state === "error") && (
           <Button
             variant="ghost"

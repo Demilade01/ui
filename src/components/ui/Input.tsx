@@ -15,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-[12px] font-medium text-[#999999]"
+            className="text-[12px] font-medium text-ink-2"
           >
             {label}
           </label>
@@ -24,19 +24,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "h-9 w-full rounded-lg border bg-[#1c1c1c] px-3.5",
-            "text-[13px] text-[#ebebeb] placeholder:text-[#444444]",
+            "h-9 w-full rounded-lg border bg-surface-2 px-3.5",
+            "text-[13px] text-ink placeholder:text-ink-4",
             "outline-none transition-colors",
             error
-              ? "border-[rgba(239,68,68,0.5)] focus:border-[#ef4444] focus:ring-1 focus:ring-[rgba(239,68,68,0.2)]"
-              : "border-[#2a2a2a] focus:border-[#3d3d3d] focus:ring-1 focus:ring-[rgba(86,69,212,0.3)]",
+              ? "border-[rgba(239,68,68,0.5)] focus:border-red focus:ring-1 focus:ring-[rgba(239,68,68,0.2)]"
+              : "border-line focus:border-line-2 focus:ring-1 focus:ring-brand-dim",
             "disabled:opacity-40 disabled:cursor-not-allowed",
             className,
           )}
           {...props}
         />
-        {error && <p className="text-[10px] text-[#ef4444]">{error}</p>}
-        {hint && !error && <p className="text-[10px] text-[#555555]">{hint}</p>}
+        {error && <p className="text-[11px] text-red">{error}</p>}
+        {hint && !error && <p className="text-[11px] text-ink-3">{hint}</p>}
       </div>
     );
   },

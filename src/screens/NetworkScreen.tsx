@@ -7,35 +7,35 @@ const NETWORKS: {
   name: NetworkName;
   label: string;
   description: string;
-  dotClass: string;
+  dot: string;
   badge: "success" | "warning" | "purple" | "default";
 }[] = [
   {
     name: "mainnet",
     label: "Mainnet",
     description: "Public Global Stellar Network — real assets",
-    dotClass: "bg-[#22c55e]",
+    dot: "bg-green",
     badge: "success",
   },
   {
     name: "testnet",
     label: "Testnet",
     description: "Test SDF Network — free test XLM via Friendbot",
-    dotClass: "bg-[#f97316]",
+    dot: "bg-orange",
     badge: "warning",
   },
   {
     name: "futurenet",
     label: "Futurenet",
     description: "Test SDF Future Network — bleeding edge features",
-    dotClass: "bg-[#a855f7]",
+    dot: "bg-purple",
     badge: "purple",
   },
   {
     name: "localnet",
     label: "Localnet",
     description: "Local development network — requires local node",
-    dotClass: "bg-[#555555]",
+    dot: "bg-ink-3",
     badge: "default",
   },
 ];
@@ -47,13 +47,13 @@ export function NetworkScreen() {
     <div className="flex flex-col gap-5">
       {/* Active network info */}
       {network && (
-        <div className="rounded-xl border border-[#2a2a2a] bg-[#141414] overflow-hidden">
-          <div className="px-6 py-4 border-b border-[#2a2a2a]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#444]">
+        <div className="rounded-xl border border-line bg-surface overflow-hidden">
+          <div className="px-6 py-4 border-b border-line">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-4">
               Active Network
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#2a2a2a]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-line">
             <InfoCell label="Name" value={network.name} />
             <InfoCell label="Passphrase" value={network.passphrase} mono />
             <InfoCell label="RPC URL" value={network.rpcUrl} mono />
@@ -62,7 +62,7 @@ export function NetworkScreen() {
         </div>
       )}
 
-      {/* Network selector */}
+      {/* Selector */}
       <div className="flex flex-col gap-3">
         {NETWORKS.map((net) => {
           const isActive = network?.name === net.name;
@@ -71,26 +71,22 @@ export function NetworkScreen() {
               key={net.name}
               onClick={() => switchNetwork(net.name)}
               className={cn(
-                "w-full text-left rounded-xl border px-6 py-5 transition-colors cursor-pointer",
-                "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5645d4]",
+                "w-full text-left rounded-xl border px-6 py-5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
                 isActive
-                  ? "border-[rgba(86,69,212,0.35)] bg-[rgba(86,69,212,0.06)]"
-                  : "border-[#2a2a2a] bg-[#141414] hover:bg-[#181818] hover:border-[#333]",
+                  ? "border-[rgba(86,69,212,0.35)] bg-brand-dim"
+                  : "border-line bg-surface hover:bg-surface-2 hover:border-line-2",
               )}
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <span
-                    className={cn(
-                      "w-2.5 h-2.5 rounded-full shrink-0 mt-0.5",
-                      net.dotClass,
-                    )}
+                    className={cn("w-2.5 h-2.5 rounded-full shrink-0", net.dot)}
                   />
                   <div>
-                    <p className="text-[14px] font-medium text-[#ebebeb]">
+                    <p className="text-[14px] font-medium text-ink">
                       {net.label}
                     </p>
-                    <p className="text-[12px] text-[#555] mt-0.5">
+                    <p className="text-[12px] text-ink-3 mt-0.5">
                       {net.description}
                     </p>
                   </div>
@@ -120,12 +116,12 @@ function InfoCell({
 }) {
   return (
     <div className="px-6 py-4 flex flex-col gap-1.5">
-      <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#444]">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-4">
         {label}
       </span>
       <span
         className={cn(
-          "text-[13px] text-[#aaa] break-all",
+          "text-[13px] text-ink-2 break-all",
           mono && "font-mono text-[12px]",
         )}
       >

@@ -20,16 +20,13 @@ export function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0d0d0d]">
-      {/* Sidebar takes its own width on lg, hidden off-screen on mobile */}
+    <div className="flex h-screen overflow-hidden bg-base">
       <Sidebar
         active={active}
         onNavigate={setActive}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
-
-      {/* Right column: topbar + scrollable content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <TopBar
           active={active}

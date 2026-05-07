@@ -50,36 +50,18 @@ export function TransactionPanel() {
   }
 
   return (
-    <div className="rounded-xl border border-[#2a2a2a] bg-[#141414] overflow-hidden">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-[#2a2a2a]">
-        <h3 className="text-[14px] font-semibold text-[#ebebeb]">
-          Send Payment
-        </h3>
-        <p className="text-[12px] text-[#555] mt-0.5">
+    <div className="rounded-xl border border-line bg-surface overflow-hidden">
+      <div className="px-6 py-4 border-b border-line">
+        <h3 className="text-[14px] font-semibold text-ink">Send Payment</h3>
+        <p className="text-[12px] text-ink-3 mt-0.5">
           Submit a payment on the Stellar network
         </p>
       </div>
 
-      {/* Body */}
       <div className="px-6 py-6">
         {!isConnected ? (
           <div className="flex flex-col items-center gap-3 py-8">
-            <div className="w-10 h-10 rounded-full bg-[#1c1c1c] border border-[#2a2a2a] flex items-center justify-center">
-              <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
-                <rect
-                  x="1"
-                  y="3.5"
-                  width="12"
-                  height="8"
-                  rx="1.5"
-                  stroke="#555"
-                  strokeWidth="1.3"
-                />
-                <path d="M1 6.5H13" stroke="#555" strokeWidth="1.3" />
-              </svg>
-            </div>
-            <p className="text-[13px] text-[#555]">
+            <p className="text-[13px] text-ink-3">
               Connect your wallet to send transactions
             </p>
           </div>
@@ -98,16 +80,16 @@ export function TransactionPanel() {
                 </svg>
               </div>
               <div>
-                <p className="text-[14px] font-semibold text-[#ebebeb]">
+                <p className="text-[14px] font-semibold text-ink">
                   Transaction submitted
                 </p>
-                <p className="text-[12px] text-[#555]">
+                <p className="text-[12px] text-ink-3">
                   Ledger #{result.ledger}
                 </p>
               </div>
             </div>
-            <div className="rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] px-5 py-4 flex flex-col gap-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#444]">
+            <div className="rounded-lg bg-surface-2 border border-line px-5 py-4 flex flex-col gap-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-4">
                 Transaction Hash
               </p>
               <span data-txhash className="break-all leading-relaxed">
@@ -138,10 +120,10 @@ export function TransactionPanel() {
               </svg>
             </div>
             <div>
-              <p className="text-[14px] font-semibold text-[#ebebeb]">
+              <p className="text-[14px] font-semibold text-ink">
                 Transaction failed
               </p>
-              <p className="text-[13px] text-[#ef4444] mt-1">{error}</p>
+              <p className="text-[13px] text-red mt-1">{error}</p>
             </div>
           </div>
         ) : (
@@ -174,8 +156,7 @@ export function TransactionPanel() {
         )}
       </div>
 
-      {/* Footer */}
-      <div className="px-6 py-4 border-t border-[#2a2a2a] flex items-center gap-3">
+      <div className="px-6 py-4 border-t border-line flex items-center gap-3">
         {state === "success" || state === "error" ? (
           <Button
             variant="secondary"

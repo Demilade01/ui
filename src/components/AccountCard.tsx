@@ -7,12 +7,11 @@ export function AccountCard() {
   if (!address) return null;
 
   return (
-    <div className="rounded-xl border border-[#2a2a2a] bg-[#141414] overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-[#2a2a2a]">
+    <div className="rounded-xl border border-line bg-surface overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-line">
         <div>
-          <h3 className="text-[14px] font-semibold text-[#ebebeb]">Account</h3>
-          <p className="text-[12px] text-[#555] mt-0.5">
+          <h3 className="text-[14px] font-semibold text-ink">Account</h3>
+          <p className="text-[12px] text-ink-3 mt-0.5">
             Stellar account details
           </p>
         </div>
@@ -20,15 +19,13 @@ export function AccountCard() {
           Active
         </Badge>
       </div>
-
-      {/* Body */}
-      <div className="px-6 py-5">
+      <div className="px-5 py-5">
         {isLoadingAccount ? (
           <div className="flex flex-col gap-4">
-            {[80, 48, 32].map((w, i) => (
+            {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className={`h-4 rounded-lg bg-[#1c1c1c] animate-pulse w-${w === 80 ? "full" : w === 48 ? "48" : "32"}`}
+                className="h-4 rounded-lg bg-surface-2 animate-pulse"
               />
             ))}
           </div>
@@ -42,12 +39,12 @@ export function AccountCard() {
             {account && (
               <div className="grid grid-cols-2 gap-5">
                 <Field label="Sequence">
-                  <span className="font-mono text-[12px] text-[#aaa]">
+                  <span className="font-mono text-[12px] text-ink-2">
                     {account.sequence}
                   </span>
                 </Field>
                 <Field label="Subentries">
-                  <span className="text-[13px] text-[#ebebeb]">
+                  <span className="text-[13px] text-ink">
                     {account.subentryCount}
                   </span>
                 </Field>
@@ -69,7 +66,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#444]">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-4">
         {label}
       </span>
       {children}
@@ -81,12 +78,12 @@ export function AccountCardCompact() {
   const { address } = useSorokit();
   if (!address) return null;
   return (
-    <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a]">
-      <div className="w-7 h-7 rounded-full bg-[#5645d4] flex items-center justify-center text-[11px] font-bold text-white shrink-0">
+    <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-2 border border-line">
+      <div className="w-7 h-7 rounded-full bg-brand flex items-center justify-center text-[11px] font-bold text-white shrink-0">
         {address.slice(0, 2).toUpperCase()}
       </div>
       <div className="flex flex-col gap-0.5 min-w-0">
-        <span className="text-[10px] text-[#555] uppercase tracking-widest">
+        <span className="text-[10px] text-ink-4 uppercase tracking-widest">
           Connected
         </span>
         <span data-address className="truncate">

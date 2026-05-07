@@ -5,11 +5,45 @@
 @source "./**/*.{ts,tsx}";
 @source "../index.html";
 
-/*
-  All custom base styles go inside @layer base.
-  This ensures Tailwind utility classes (px-6, bg-[#141414], etc.)
-  always win over base styles — utilities have higher layer priority.
-*/
+/* ─────────────────────────────────────────────────────────
+   BRAND & DESIGN TOKENS
+   Edit values here — they propagate to every component.
+   Components reference these as: bg-brand, text-ink, border-line, etc.
+───────────────────────────────────────────────────────── */
+@theme {
+  /* ── Brand ── */
+  --color-brand: #5645d4; /* primary purple — change this to rebrand */
+  --color-brand-hover: #4534b3; /* brand hover/pressed state */
+  --color-brand-dim: rgba(86, 69, 212, 0.12); /* brand tinted background */
+
+  /* ── Surfaces ── */
+  --color-base: #0d0d0d; /* page background */
+  --color-surface: #141414; /* card, sidebar, topbar */
+  --color-surface-2: #1c1c1c; /* input, hover state */
+  --color-surface-3: #1e1e1e; /* active nav item */
+
+  /* ── Borders ── */
+  --color-line: #2a2a2a; /* default border */
+  --color-line-2: #333333; /* stronger border / active */
+
+  /* ── Text ── */
+  --color-ink: #ebebeb; /* primary text */
+  --color-ink-2: #999999; /* secondary text */
+  --color-ink-3: #555555; /* muted text */
+  --color-ink-4: #3a3a3a; /* very muted / section labels */
+
+  /* ── Semantic ── */
+  --color-green: #22c55e;
+  --color-orange: #f97316;
+  --color-red: #ef4444;
+  --color-teal: #14b8a6;
+  --color-purple: #a855f7;
+}
+
+/* ─────────────────────────────────────────────────────────
+   BASE STYLES
+   Inside @layer base so Tailwind utilities always override.
+───────────────────────────────────────────────────────── */
 @layer base {
   *,
   *::before,
@@ -21,12 +55,12 @@
 
   html {
     color-scheme: dark;
-    background: #0d0d0d;
+    background: var(--color-base);
   }
 
   body {
-    background: #0d0d0d;
-    color: #ebebeb;
+    background: var(--color-base);
+    color: var(--color-ink);
     font-family:
       "Instrument Sans",
       "SF Pro Display",
@@ -39,12 +73,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Mono only for addresses and tx hashes */
+  /* Mono — addresses and tx hashes only */
   [data-address],
   [data-txhash] {
     font-family: "SF Mono", "Fira Code", ui-monospace, monospace;
     font-size: 11px;
-    color: #999;
+    color: var(--color-ink-2);
     letter-spacing: 0.01em;
   }
 
@@ -56,7 +90,7 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2a2a;
+    background: var(--color-line-2);
     border-radius: 2px;
   }
 }
