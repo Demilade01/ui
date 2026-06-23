@@ -9,14 +9,20 @@ import type { ClaimableBalance } from "@/lib/client";
 function BalanceRow({ cb }: { cb: ClaimableBalance }) {
   const [claiming, setClaiming] = useState(false);
   const [claimed, setClaimed] = useState(false);
+  const [claimError, setClaimError] = useState<string | null>(null);
 
   const assetCode = cb.asset.includes(":") ? cb.asset.split(":")[0] : cb.asset;
 
   async function handleClaim() {
     setClaiming(true);
+    setClaimError(null);
     try {
       const { error } = await getClient().account.claimBalance(cb.id);
-      if (!error) setClaimed(true);
+      if (!error) {
+        setClaimed(true);
+      } else {
+        setClaimError(error);
+      }
     } finally {
       setClaiming(false);
     }
@@ -47,14 +53,21 @@ function BalanceRow({ cb }: { cb: ClaimableBalance }) {
         </div>
       </div>
       {!claimed && (
-        <Button
-          size="sm"
-          loading={claiming}
-          onClick={handleClaim}
-          className="shrink-0"
-        >
-          Claim
-        </Button>
+        <div className="flex flex-col items-end gap-1">
+          <Button
+            size="sm"
+            loading={claiming}
+            onClick={handleClaim}
+            className="shrink-0"
+          >
+            Claim
+          </Button>
+          {claimError && (
+            <span className="text-[10px] text-red max-w-[150px] text-right truncate">
+              {claimError}
+            </span>
+          )}
+        </div>
       )}
     </div>
   );
