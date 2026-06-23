@@ -130,4 +130,47 @@ describe("TransactionPanel", () => {
     expect(await screen.findByText("Transaction failed")).toBeInTheDocument();
     expect(screen.getByText("Wallet not connected")).toBeInTheDocument();
   });
+
+  it("shows self-payment warning error if destination is equal to source address", async () => {
+    (useSorokit as any).mockReturnValue({
+      address: "GCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      isConnected: true,
+    });
+
+    render(<TransactionPanel />);
+
+    const destInput = screen.getByLabelText("Destination Address");
+    const amountInput = screen.getByLabelText("Amount (XLM)");
+    const submitBtn = screen.getByRole("button", { name: "Send Payment" });
+
+    // Type source address as destination address
+    fireEvent.change(destInput, { target: { value: "GCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC" } });
+    fireEvent.change(amountInput, { target: { value: "10" } });
+
+    // Self-payment error should be displayed
+    expect(screen.getByText("Cannot send to self")).toBeInTheDocument();
+    expect(submitBtn).toBeDisabled();
+  });
+
+  it("shows error for amount below minimum threshold", async () => {
+    render(<TransactionPanel />);
+
+    const destInput = screen.getByLabelText("Destination Address");
+    const amountInput = screen.getByLabelText("Amount (XLM)");
+    const submitBtn = screen.getByRole("button", { name: "Send Payment" });
+
+    const validDest = "GCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
+    fireEvent.change(destInput, { target: { value: validDest } });
+
+    // Type amount below 0.0000001
+    fireEvent.change(amountInput, { target: { value: "0.00000005" } });
+
+    expect(screen.getByText("Amount must be at least 0.0000001 XLM")).toBeInTheDocument();
+    expect(submitBtn).toBeDisabled();
+
+    // Type valid amount
+    fireEvent.change(amountInput, { target: { value: "0.0000001" } });
+    expect(screen.queryByText("Amount must be at least 0.0000001 XLM")).not.toBeInTheDocument();
+    expect(submitBtn).not.toBeDisabled();
+  });
 });

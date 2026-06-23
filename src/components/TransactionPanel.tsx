@@ -17,17 +17,23 @@ export function TransactionPanel() {
   const [dest, setDest] = useState("");
   const [destDirty, setDestDirty] = useState(false);
   const [amount, setAmount] = useState("");
+  const [amountDirty, setAmountDirty] = useState(false);
   const [memo, setMemo] = useState("");
   const [state, setState] = useState<State>("idle");
   const [result, setResult] = useState<TxResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const isDestValid = /^G[A-Z2-7]{55}$/.test(dest.trim());
+  const isSelfPayment = dest.trim() === address;
+  const parsedAmount = parseFloat(amount);
+  const isAmountValid = !isNaN(parsedAmount) && parsedAmount >= 0.0000001;
+
   const canSubmit =
     isConnected &&
     isDestValid &&
-    amount.trim() &&
-    parseFloat(amount) > 0;
+    !isSelfPayment &&
+    amount.trim() !== "" &&
+    isAmountValid;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -59,6 +65,7 @@ export function TransactionPanel() {
       setAmount("");
       setMemo("");
       setDestDirty(false);
+      setAmountDirty(false);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unknown error");
       setState("error");
@@ -144,7 +151,15 @@ export function TransactionPanel() {
                 setDest(e.target.value);
                 setDestDirty(true);
               }}
-              error={destDirty && !isDestValid ? "Invalid Stellar address" : undefined}
+              error={
+                destDirty
+                  ? !isDestValid
+                    ? "Invalid Stellar address"
+                    : isSelfPayment
+                    ? "Cannot send to self"
+                    : undefined
+                  : undefined
+              }
               disabled={state === "loading"}
             />
             <Input
@@ -154,7 +169,21 @@ export function TransactionPanel() {
               min="0.0000001"
               step="0.0000001"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                setAmount(e.target.value);
+                setAmountDirty(true);
+              }}
+              error={
+                amountDirty
+                  ? amount.trim() === ""
+                    ? "Amount is required"
+                    : isNaN(parsedAmount) || parsedAmount <= 0
+                    ? "Amount must be greater than 0"
+                    : parsedAmount < 0.0000001
+                    ? "Amount must be at least 0.0000001 XLM"
+                    : undefined
+                  : undefined
+              }
               disabled={state === "loading"}
             />
             <Input
@@ -178,6 +207,7 @@ export function TransactionPanel() {
               setResult(null);
               setError(null);
               setDestDirty(false);
+              setAmountDirty(false);
             }}
           >
             New Transaction
